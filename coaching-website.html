@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConceptHub - Deep Learning, Deeper Understanding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1A1F36;
+            --secondary: #FF6B6B;
+            --accent: #4ECDC4;
+            --yellow: #FFE66D;
+            --purple: #A8DADC;
+            --text: #2D3142;
+            --text-light: #F0F3F7;
+            --bg-light: #FDFEFF;
+            --card-bg: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-light);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Decorative Background Elements */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            opacity: 0.6;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.2), transparent);
+            top: 10%;
+            right: 10%;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.2), transparent);
+            bottom: 20%;
+            left: 5%;
+            animation: float 12s ease-in-out infinite reverse;
+        }
+
+        .shape-3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 230, 109, 0.2), transparent);
+            top: 50%;
+            left: 50%;
+            animation: float 18s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(253, 254, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transform: rotate(-10deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            transition: width 0.3s;
+            border-radius: 2px;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-nav {
+            padding: 0.8rem 1.8rem;
+            background: linear-gradient(135deg, var(--secondary), #ff8787);
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-nav:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8rem 5% 4rem;
+            gap: 4rem;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: linear-gradient(135deg, var(--yellow), #ffd93d);
+            color: var(--text);
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInLeft 1s ease-out 0.2s both;
+            box-shadow: 0 4px 15px rgba(255, 230, 109, 0.4);
+        }
+
+        .hero h1 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            animation: fadeInLeft 1s ease-out 0.4s both;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #5a607f;
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            animation: fadeInLeft 1s ease-out 0.6s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInLeft 1s ease-out 0.8s both;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 30px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), #ff8787);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--secondary);
+            border: 3px solid var(--secondary);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .hero-visual {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .illustration {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .illustration-circle {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--purple), var(--accent));
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(78, 205, 196, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .illustration-icons {
+            position: absolute;
+            font-size: 3rem;
+        }
+
+        .icon-1 { top: 10%; left: 10%; animation: bounce 2s ease-in-out infinite; }
+        .icon-2 { top: 10%; right: 10%; animation: bounce 2s ease-in-out 0.5s infinite; }
+        .icon-3 { bottom: 10%; left: 10%; animation: bounce 2s ease-in-out 1s infinite; }
+        .icon-4 { bottom: 10%; right: 10%; animation: bounce 2s ease-in-out 1.5s infinite; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            font-size: 0.95rem;
+            color: var(--secondary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Philosopher', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #5a607f;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+            border-color: var(--accent);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .feature-card h3 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: #5a607f;
+            line-height: 1.8;
+        }
+
+        /* Subjects Section */
+        .subjects {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #f8f9ff, #fff5f5);
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subject-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--secondary);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .subject-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subject-card h3 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .subject-card p {
+            color: #5a607f;
+            font-size: 0.95rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 5%;
+            background: var(--primary);
+            color: var(--text-light);
+        }
+
+        .testimonials .section-tag {
+            color: var(--yellow);
+        }
+
+        .testimonials .section-title {
+            color: white;
+        }
+
+        .testimonials .section-subtitle {
+            color: rgba(240, 243, 247, 0.8);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .testimonial-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .stars {
+            color: var(--yellow);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: rgba(240, 243, 247, 0.9);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: rgba(240, 243, 247, 0.7);
+        }
+
+        /* Schedule Section */
+        .schedule {
+            padding: 6rem 5%;
+            background: white;
+        }
+
+        .schedule-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .schedule-info {
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            padding: 3rem;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
+        }
+
+        .schedule-info h3 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .schedule-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-item strong {
+            font-size: 1.1rem;
+        }
+
+        .highlight-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-box h3 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .highlight-box li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #5a607f;
+        }
+
+        .highlight-box li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 5%;
+            background: linear-gradient(135deg, #fff5f5, #f8f9ff);
+        }
+
+        .contact-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--secondary), #ff8787);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details h3 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .contact-details p {
+            color: #5a607f;
+            font-size: 0.95rem;
+        }
+
+        .registration-box {
+            background: linear-gradient(135deg, var(--secondary), #ff8787);
+            padding: 3rem;
+            border-radius: 20px;
+            color: white;
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .registration-box h3 {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .registration-box p {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+
+        .btn-register {
+            padding: 1.2rem 2.5rem;
+            background: white;
+            color: var(--secondary);
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--text-light);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Philosopher', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(240, 243, 247, 0.7);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 6rem 5% 3rem;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .cta-buttons {
+                justify-content: center;
+            }
+
+            .illustration-circle {
+                width: 300px;
+                height: 300px;
+            }
+
+            .schedule-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .subjects-grid,
+            .features-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent), var(--secondary));
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, var(--secondary), var(--accent));
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Shapes -->
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <div class="logo-icon">🎓</div>
+            ConceptHub
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#subjects">Subjects</a></li>
+            <li><a href="#schedule">Schedule</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#register" class="cta-nav">Enroll Now</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-badge">🌟 Online & Weekend Classes • Taught by IITians & NITians</div>
+            <h1>
+                Deep Learning,<br>
+                <span class="gradient-text">Deeper Understanding</span>
+            </h1>
+            <p>
+                Master the concepts, not just the answers. Our coaching classes, taught by experienced 
+                IITians and NITians, focus on building strong foundations in Maths, Physics, Programming, 
+                and Languages through conceptual clarity and deep understanding.
+            </p>
+            <div class="cta-buttons">
+                <a href="#register" class="btn btn-primary">Start Learning Today</a>
+                <a href="#subjects" class="btn btn-secondary">Explore Subjects</a>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="illustration">
+                <div class="illustration-circle">
+                    <span style="font-size: 4rem;">🎯</span>
+                </div>
+                <div class="illustration-icons icon-1">📚</div>
+                <div class="illustration-icons icon-2">🧮</div>
+                <div class="illustration-icons icon-3">💻</div>
+                <div class="illustration-icons icon-4">🔬</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-tag">Why Choose Us</div>
+            <h2 class="section-title">Learning That Makes a Difference</h2>
+            <p class="section-subtitle">
+                We don't just teach subjects, we build understanding that lasts a lifetime
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Conceptual Focus</h3>
+                <p>We emphasize understanding WHY things work, not just HOW to solve them. Build strong foundations that help you tackle any problem.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3>IITian & NITian Instructors</h3>
+                <p>Learn from alumni of premier institutes (IITs & NITs) who are passionate about their subjects and dedicated to your success.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🖥️</div>
+                <h3>Flexible Online Classes</h3>
+                <p>Attend live interactive sessions from anywhere. Perfect for busy schedules with weekend and evening slots available.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Progress Tracking</h3>
+                <p>Regular assessments and personalized feedback to monitor your growth and identify areas for improvement.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤝</div>
+                <h3>Small Batch Size</h3>
+                <p>Limited students per batch ensure individual attention and opportunities to ask questions and clarify doubts.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Practice Materials</h3>
+                <p>Access comprehensive study materials, practice problems, and real-world applications for every concept.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Section -->
+    <section class="subjects" id="subjects">
+        <div class="section-header">
+            <div class="section-tag">Our Courses</div>
+            <h2 class="section-title">Subjects We Teach</h2>
+            <p class="section-subtitle">
+                Comprehensive coaching across core subjects with focus on deep conceptual learning
+            </p>
+        </div>
+
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-icon">🧮</div>
+                <h3>Mathematics</h3>
+                <p>From fundamentals to advanced topics, master problem-solving with conceptual clarity</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">⚛️</div>
+                <h3>Physics</h3>
+                <p>Understand the laws of nature through practical applications and deep concepts</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">⚗️</div>
+                <h3>Chemistry</h3>
+                <p>Learn reactions, equations, and periodic trends with conceptual understanding</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">💻</div>
+                <h3>Programming</h3>
+                <p>Python, Java, C++ - Learn to code with strong algorithmic thinking</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">🌐</div>
+                <h3>English</h3>
+                <p>Grammar, writing, comprehension, and communication skills</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">🗣️</div>
+                <h3>Languages</h3>
+                <p>Hindi, Spanish, French - Learn new languages with cultural context</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">📊</div>
+                <h3>Data Science</h3>
+                <p>Statistics, machine learning, and data analysis fundamentals</p>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">🧪</div>
+                <h3>Biology</h3>
+                <p>Life sciences with focus on understanding living systems and processes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-header">
+            <div class="section-tag">Student Success</div>
+            <h2 class="section-title">What Our Students Say</h2>
+            <p class="section-subtitle">
+                Real stories from students who transformed their understanding
+            </p>
+        </div>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">
+                    "The conceptual approach to mathematics completely changed how I think about problems. 
+                    I'm now solving complex equations with confidence!"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">RS</div>
+                    <div class="author-info">
+                        <h4>Rahul Sharma</h4>
+                        <p>Mathematics Student</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">
+                    "Physics used to be my weakest subject. The instructors here helped me understand the 
+                    'why' behind every formula. Now it's my favorite!"
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">PK</div>
+                    <div class="author-info">
+                        <h4>Priya Kapoor</h4>
+                        <p>Physics Student</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars">⭐⭐⭐⭐⭐</div>
+                <p class="testimonial-text">
+                    "Learning Python here was amazing! The focus on logic and problem-solving helped me 
+                    build my first app within 3 months."
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AV</div>
+                    <div class="author-info">
+                        <h4>Arjun Verma</h4>
+                        <p>Programming Student</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule" id="schedule">
+        <div class="section-header">
+            <div class="section-tag">Class Timings</div>
+            <h2 class="section-title">Flexible Schedule</h2>
+            <p class="section-subtitle">
+                Choose the timing that works best for you
+            </p>
+        </div>
+
+        <div class="schedule-content">
+            <div class="schedule-info">
+                <h3>📅 Class Schedule</h3>
+                <div class="schedule-item">
+                    <span><strong>Weekday Evening</strong></span>
+                    <span>6:00 PM - 8:00 PM</span>
+                </div>
+                <div class="schedule-item">
+                    <span><strong>Weekend Morning</strong></span>
+                    <span>9:00 AM - 12:00 PM</span>
+                </div>
+                <div class="schedule-item">
+                    <span><strong>Weekend Afternoon</strong></span>
+                    <span>2:00 PM - 5:00 PM</span>
+                </div>
+                <div class="schedule-item">
+                    <span><strong>Batch Size</strong></span>
+                    <span>10-15 Students</span>
+                </div>
+                <div class="schedule-item">
+                    <span><strong>Class Duration</strong></span>
+                    <span>2-3 Hours</span>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>✨ What You Get</h3>
+                <ul>
+                    <li>Live interactive online sessions</li>
+                    <li>Recorded classes for revision</li>
+                    <li>Weekly doubt-clearing sessions</li>
+                    <li>Practice assignments & tests</li>
+                    <li>Study material & notes</li>
+                    <li>Progress reports & feedback</li>
+                    <li>Certificate of completion</li>
+                    <li>Lifetime community access</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="section-header">
+            <div class="section-tag">Get In Touch</div>
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">
+                Have questions? We're here to help you get started
+            </p>
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-info">
+                <a href="tel:+919876543210" class="contact-card">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-details">
+                        <h3>Phone</h3>
+                        <p>+91 98765 43210</p>
+                        <p style="margin-top: 0.3rem;">Mon-Sat: 10 AM - 8 PM</p>
+                    </div>
+                </a>
+
+                <a href="/cdn-cgi/l/email-protection#d0b9beb6bf90b3bfbeb3b5a0a4b8a5b2feb3bfbd" class="contact-card">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-details">
+                        <h3>Email</h3>
+                        <p><span class="__cf_email__" data-cfemail="432a2d252c03202c2d202633372b36216d202c2e">[email&#160;protected]</span></p>
+                        <p style="margin-top: 0.3rem;">We'll respond within 24 hours</p>
+                    </div>
+                </a>
+
+                <a href="https://wa.me/919876543210" target="_blank" class="contact-card">
+                    <div class="contact-icon">💬</div>
+                    <div class="contact-details">
+                        <h3>WhatsApp</h3>
+                        <p>+91 98765 43210</p>
+                        <p style="margin-top: 0.3rem;">Quick queries & support</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="registration-box" id="register">
+                <h3>🎓 Ready to Start?</h3>
+                <p>
+                    Fill out our registration form and our team will get in touch with you 
+                    within 24 hours to discuss your learning goals and batch availability.
+                </p>
+                <a href="https://forms.gle/8Mt41tXmB63goKwr6" target="_blank" class="btn-register">
+                    Register Now →
+                </a>
+                <p style="margin-top: 1.5rem; margin-bottom: 0; font-size: 0.9rem; opacity: 0.9;">
+                    ⏱️ Registration takes less than 2 minutes<br>
+                    🎁 Early bird discount available
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-icon">🎓</div>
+                ConceptHub
+            </div>
+            <p style="margin-bottom: 2rem; opacity: 0.8;">
+                Building strong foundations through conceptual learning<br>
+                <strong style="color: var(--yellow);">Taught by IIT & NIT Alumni</strong>
+            </p>
+
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#features">Features</a>
+                <a href="#subjects">Subjects</a>
+                <a href="#schedule">Schedule</a>
+                <a href="#contact">Contact</a>
+            </div>
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" title="Facebook">📘</a>
+                <a href="#" class="social-icon" title="Instagram">📷</a>
+                <a href="#" class="social-icon" title="Twitter">🐦</a>
+                <a href="#" class="social-icon" title="YouTube">📹</a>
+                <a href="#" class="social-icon" title="LinkedIn">💼</a>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 ConceptHub. All rights reserved.</p>
+                <p style="margin-top: 0.5rem;">Empowering students through deep conceptual understanding</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Active navigation on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.color = '';
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.style.color = 'var(--secondary)';
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+     
